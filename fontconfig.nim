@@ -525,7 +525,7 @@ proc FcCharSetIsSubset*(a: ptr TFcCharSet; b: ptr TFcCharSet): TFcBool {.cdecl,
     importc: "FcCharSetIsSubset", libfontconfig.}
 const
   FC_CHARSET_MAP_SIZE* = (256 div 32)
-  FC_CHARSET_DONE* = TFcChar32(-1)
+  FC_CHARSET_DONE* = TFcChar32(cuint.high)
 
 #FcPublic
 
@@ -1047,13 +1047,13 @@ proc FcStrFree*(s: ptr TFcChar8) {.cdecl, importc: "FcStrFree",
                                    libfontconfig.}
 # These are ASCII only, suitable only for pattern element names
 
-template FcIsUpper*(c: expr): expr =
+template FcIsUpper*(c: untyped): untyped =
   ((0o000000000101 <= (c) and (c) <= 0o000000000132))
 
-template FcIsLower*(c: expr): expr =
+template FcIsLower*(c: untyped): untyped =
   ((0o000000000141 <= (c) and (c) <= 0o000000000172))
 
-template FcToLower*(c: expr): expr =
+template FcToLower*(c: untyped): untyped =
   (if FcIsUpper(c): (c) - 0o000000000101 + 0o000000000141 else: (c))
 
 #FcPublic
